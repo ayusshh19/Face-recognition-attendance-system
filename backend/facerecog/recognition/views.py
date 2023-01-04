@@ -205,6 +205,7 @@ def vizualize_Data(embedded, targets,):
     plt.close()
 
 
+@api_view(['GET'])
 def train(request):
 
     training_dir = 'face_recognition_data/training_dataset'
@@ -250,13 +251,7 @@ def train(request):
 
     # vizualize_Data(X1,targets)
 
-    messages.success(request, f'Training Complete.')
-
-    return render(request, "thanks.html")
-
-
-def train_data(request):
-    train(request)
+    return Response({'msg': 'training completed successfully!!!'}, status=status.HTTP_200_OK)
 
 
 def total_number_of_student():
@@ -366,16 +361,19 @@ def update_attendance_in_db_out(present):
             a.save()
 
 
+@api_view(['GET', 'POST'])
 def mark(request):
     if request.method == 'POST':
-        form = subjectform(request.POST)
-        data = request.POST.copy()
-        subject = data.get('subject')
-        mark_your_attendance(request, subject)
-        return render(request, "thanks.html")
-    else:
-        form = subjectform()
-        return render(request, 'register.html', {'form': form})
+        try:
+            subject = request.data.get('subject')
+            mark_your_attendance(request, subject)
+            return Response({'msg':'Your attendance have been marked successfully!!!'},status=status.HTTP_200_OK)
+        except:
+            print('An exception occurred')
+            return Response({'msg':'Something went wrong!!'},status=status.HTTP_400_BAD_REQUEST)
+            
+    if request.method=='GET':
+        return Response({'msg':'Please enter the subject!!'},status=status.HTTP_200_OK)
 
 
 # def add_photos(request):
