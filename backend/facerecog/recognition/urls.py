@@ -9,8 +9,4 @@ urlpatterns = [
     path('traindata/',train_data,name='traindata'),
     path('mark/',mark,name='mark'),
     
-    
-    
-    
-    
 ]

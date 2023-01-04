@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,Attendance
 class registerform(forms.ModelForm):
     class Meta:
         model=User
@@ -10,3 +10,10 @@ class usernameForm(forms.ModelForm):
     class Meta:
         model=User
         fields=['username']
+        
+class subjectform(forms.ModelForm):
+    class Meta:
+        model=Attendance
+        fields=['subject']
+
+        

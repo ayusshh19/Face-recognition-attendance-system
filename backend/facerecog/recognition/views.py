@@ -34,7 +34,7 @@ from matplotlib import rcParams
 import math
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
-from .forms import registerform,usernameForm
+from .forms import registerform,usernameForm,subjectform
 from .models import User,Attendance
 
 mpl.use('Agg')
@@ -236,7 +236,7 @@ def total_number_of_student():
     return (len(usernum)-1)
 
 
-def mark_your_attendance(request):
+def mark_your_attendance(request,subject):
 	detector = dlib.get_frontal_face_detector()
 	
 	predictor = dlib.shape_predictor('face_recognition_data/shape_predictor_68_face_landmarks.dat')   #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
@@ -296,6 +296,7 @@ def mark_your_attendance(request):
 				#if count[pred] == 4 and (time.time()-start) <= 1.5:
 				else:
 					present[pred] = True
+					print(present)
 					log_time[pred] = datetime.datetime.now()
 					count[pred] = count.get(pred,0) + 1
 					print(pred, present[pred], count[pred])
@@ -328,13 +329,11 @@ def mark_your_attendance(request):
 
 	# destroying all the windows
 	cv2.destroyAllWindows()
-	update_attendance_in_db_in(present)
-	return redirect('home')
+	update_attendance_in_db_in(present,subject)
+
 
 
 def update_attendance_in_db_out(present):
-	today=datetime.date.today()
-	time=datetime.datetime.now()
 	for person in present:
 		user=User.objects.get(username=person)
 		if present[person]==True:
@@ -343,7 +342,15 @@ def update_attendance_in_db_out(present):
 		
    
 def mark(request):
-    mark_your_attendance(request)
+    if request.method=='POST':
+        form =subjectform(request.POST)
+        data=request.POST.copy()
+        subject=data.get('subject')
+        mark_your_attendance(request,subject)
+        return render(request,"thanks.html")
+    else:
+     form =subjectform()
+     return render(request,'register.html',{'form':form})
 
 
 def add_photos(request):
@@ -362,28 +369,24 @@ def add_photos(request):
 			form=usernameForm()
 			return render(request,'add_photos.html', {'form' : form})
 
-def update_attendance_in_db_in(present):
+def update_attendance_in_db_in(present,subject):
 	today=datetime.date.today()
-	time=datetime.datetime.now()
 	for person in present:
 		user=User.objects.get(username=person)
 		try:
-		   qs=Present.objects.get(user=user,date=today)
+		   qs=Attendance.objects.get(username=user,subject=subject,todaysdate=today)
 		except :
 			qs= None
 		
 		if qs is None:
 			if present[person]==True:
-						a=Present(user=user,date=today,present=True)
-						a.save()
+				a=Attendance(username=user,subject=subject,todaysdate=today,present=True)
+				a.save()
 			else:
-				a=Present(user=user,date=today,present=False)
+				a=Attendance(username=user,subject=subject,todaysdate=today,present=False)
 				a.save()
 		else:
 			if present[person]==True:
 				qs.present=True
 				qs.save(update_fields=['present'])
-		if present[person]==True:
-			a=Time(user=user,date=today,time=time, out=False)
-			a.save()
 
