@@ -1,8 +1,12 @@
 import React from "react";
+import Nav from './components/Nav'
+import Register from "./components/Register";
 
 function App() {
   return (
-    <h1>Routes!!</h1>
+    <>
+      
+    </>
   );
 }
 

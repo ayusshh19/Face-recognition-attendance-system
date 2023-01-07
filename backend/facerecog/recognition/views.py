@@ -279,14 +279,16 @@ def mark_your_attendance(request, subject):
 
         faces = detector(gray_frame, 0)
         for face in faces:
+           
             print("INFO : inside for loop")
             (x, y, w, h) = face_utils.rect_to_bb(face)
-
+            print(face)
             face_aligned = fa.align(frame, gray_frame, face)
+            print(face_aligned)
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
 
             (pred, prob) = predict(face_aligned, svc)
-
+            print(pred)
             if (pred != [-1]):
 
                 person_name = encoder.inverse_transform(np.ravel([pred]))[0]
