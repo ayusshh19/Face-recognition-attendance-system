@@ -39,7 +39,7 @@ from .models import User, Attendance
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import Userserializer
+from .serializers import Userserializer,Attendanceserializer
 
 mpl.use('Agg')
 
@@ -187,22 +187,6 @@ def predict(face_aligned, svc, threshold=0.7):
         return ([-1], prob[0][result[0]])
 
     return (result[0], prob[0][result[0]])
-
-
-def vizualize_Data(embedded, targets,):
-
-    X_embedded = TSNE(n_components=2).fit_transform(embedded)
-
-    for i, t in enumerate(set(targets)):
-        idx = targets == t
-        plt.scatter(X_embedded[idx, 0], X_embedded[idx, 1], label=t)
-
-    plt.legend(bbox_to_anchor=(1, 1))
-    rcParams.update({'figure.autolayout': True})
-    plt.tight_layout()
-    plt.savefig(
-        './recognition/static/recognition/img/training_visualisation.png')
-    plt.close()
 
 
 @api_view(['GET'])
@@ -367,30 +351,14 @@ def mark(request):
         try:
             subject = request.data.get('subject')
             mark_your_attendance(request, subject)
-            return Response({'msg':'Your attendance have been marked successfully!!!'},status=status.HTTP_200_OK)
+            return Response({'msg': 'Your attendance have been marked successfully!!!'}, status=status.HTTP_200_OK)
         except:
             print('An exception occurred')
-            return Response({'msg':'Something went wrong!!'},status=status.HTTP_400_BAD_REQUEST)
-            
-    if request.method=='GET':
-        return Response({'msg':'Please enter the subject!!'},status=status.HTTP_200_OK)
+            return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
 
+    if request.method == 'GET':
+        return Response({'msg': 'Please enter the subject!!'}, status=status.HTTP_200_OK)
 
-# def add_photos(request):
-#     	if request.method=='POST':
-# 		form=usernameForm(request.POST)
-# 		data = request.POST.copy()
-# 		username=data.get('username')
-# 		if username_present(username):
-# 			create_dataset(username)
-# 			messages.success(request, f'Dataset Created')
-# 			return redirect('add-photos')
-# 		else:
-# 			messages.warning(request, f'No such username found. Please register employee first.')
-# 			return redirect('dashboard')
-# 	else:
-# 			form=usernameForm()
-# 			return render(request,'add_photos.html', {'form' : form})
 
 def update_attendance_in_db_in(present, subject):
     today = datetime.date.today()
@@ -415,3 +383,21 @@ def update_attendance_in_db_in(present, subject):
             if present[person] == True:
                 qs.present = True
                 qs.save(update_fields=['present'])
+
+
+@api_view(['GET', 'POST'])
+def visualisation(request):
+    if request.method == 'POST':
+        print(request.data)
+        try:
+            date = request.data.get('todaysdate')
+            subject = request.data.get('subject')
+            serializer = Attendanceserializer(subject=subject, todaysdate=date)
+            print(serializer.data)
+            return Response({'msg': serializer.data}, status=status.HTTP_200_OK)
+        except:
+            print('An exception occurred')
+            return Response({'msg': serializer.errors}, status=status.HTTP_200_OK)
+
+    if request.method == 'GET':
+        return Response({'msg': 'provide subject and date'})
