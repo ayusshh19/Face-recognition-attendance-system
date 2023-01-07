@@ -40,7 +40,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import Userserializer,Attendanceserializer
-
+from django.db.models import Q
 mpl.use('Agg')
 
 
@@ -393,8 +393,11 @@ def visualisation(request):
         print(request.data)
         try:
             date = request.data.get('todaysdate')
+            print(date)
             subject = request.data.get('subject')
-            serializer = Attendanceserializer(subject=subject, todaysdate=date)
+            obj=Attendance.objects.filter(Q(subject=subject)&Q(todaysdate=date))
+            print(obj)
+            serializer = Attendanceserializer(obj,many=True)
             print(serializer.data)
             return Response({'msg': serializer.data}, status=status.HTTP_200_OK)
         except:
@@ -402,4 +405,8 @@ def visualisation(request):
             return Response({'msg': serializer.errors}, status=status.HTTP_200_OK)
 
     if request.method == 'GET':
-        return Response({'msg': 'provide subject and date'})
+        student=User.objects.all()
+        attendance=Attendance.objects.all()
+        stuserializer=Userserializer(student,many=True)
+        attendserializer=Attendanceserializer(attendance,many=True)
+        return Response({'msg': {'stu':stuserializer.data,'attend':attendserializer.data}})
