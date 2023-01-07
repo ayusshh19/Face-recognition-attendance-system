@@ -12,6 +12,19 @@ export default function Displaycard({ userimg, heading1, count,styleclass }) {
       background: rgba(217, 217, 217, 0.2);
       margin: 1rem;
     }
+    @media (max-width:950px) {
+      .attendcount{
+        min-width: 350px;
+      }
+      .countattendance h1 {
+      font-size: 1rem;
+    }
+    }
+    @media (max-width:350px) {
+      .attendcount{
+        min-width: 300px;
+      }
+    }
     .countattendance {
       width: 60%;
       background: linear-gradient(180deg, #373b44 0%, #4286f4 100%);

@@ -6,7 +6,7 @@ function App() {
   useEffect(()=>{
 
     AOS.init({
-      duration: 3000, // values from 0 to 3000, with step 50ms
+      duration: 1500, // values from 0 to 3000, with step 50ms
       easing: 'ease', // default easing for AOS animations
     });
   },[])
