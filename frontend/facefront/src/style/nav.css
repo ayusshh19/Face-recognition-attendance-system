@@ -12,7 +12,7 @@ header {
 	justify-content: space-between;
 	height: 80px;
 	padding: 0 2rem;
-	background-color:  #03183f;
+	background-color:  #141E30;
 	
 }
 /* .icon{
@@ -35,16 +35,18 @@ button{
     background: linear-gradient(#373B44,#4286F4);
     display: grid;
 	align-items: center;
-	grid-template-columns: 10fr;
+	grid-template-columns: 5fr;
     justify-content: flex-end;
-    
     border: 1px solid rgb(9, 9, 9);
     border-radius: 5px;
+	margin-top: 0.1%;
 }
 nav a {
-	margin: 0 1rem;
+	/* margin: 0 1rem; */
 	color: white;
 	text-decoration: none;
+	margin-left: 40%;
+	
 }
 
 nav a:hover {
