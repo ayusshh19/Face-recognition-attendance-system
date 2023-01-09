@@ -1,0 +1,46 @@
+.image1{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    left: 30%;
+    bottom: 50%;
+    z-index: 2;
+    padding: 2rem;
+    
+}
+.svg1{
+    position: relative;
+    
+}
+.svg1 svg{
+    position: absolute;
+    bottom: 0%;
+    z-index: 1;
+}
+.svg1 img{
+    margin: 1rem;
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+.face{
+    height: 90px;
+    width: 90px;
+
+}
+.face1{
+    height: 90px;
+    width: 90px;
+
+}
+
+.face2{
+    height: 90px;
+    width: 90px;
+
+}
+
+.face3{
+    height: 90px;
+    width: 90px;
+
+}
+
+

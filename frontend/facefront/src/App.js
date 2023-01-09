@@ -3,6 +3,10 @@ import Home from "./pages/Home";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Visuals from "./pages/Visuals";
+import Gif from "./components/Gif";
+
+
+
 function App() {
   useEffect(()=>{
 
@@ -15,6 +19,8 @@ function App() {
     <>
       <Visuals />
       {/* <Home /> */}
+      
+      <Home />
     </>
   );
 }
