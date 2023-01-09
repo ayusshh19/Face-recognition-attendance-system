@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Home from "./pages/Home";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Visuals from "./pages/Visuals";
 function App() {
   useEffect(()=>{
 
@@ -12,8 +13,8 @@ function App() {
   },[])
   return (
     <>
-      <h1>Routes!!</h1>
-      <Home />
+      <Visuals />
+      {/* <Home /> */}
     </>
   );
 }
