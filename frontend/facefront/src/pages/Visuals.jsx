@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import getuser from "./user.json";
 import Select from "react-select";
 import styled from "styled-components";
 import makeAnimated from "react-select/animated";
@@ -7,18 +6,31 @@ import Horizontalchart from "../graphs/Bar";
 import Piechart from "../graphs/Pie";
 import Linechart from "../graphs/Line";
 import Polarchart from "../graphs/Polar";
+import axios from "axios";
+import {visual} from '../apiroutes/apiroutes.js'
+import Loading from "./Loading";
 const animatedComponents = makeAnimated();
 export default function Visuals() {
   const subjectslist = ["TCS", "SE", "IP", "CN", "DWM"];
   const semlist = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const [loading,setloading]=useState(true)
   // const userdata=JSON.parse(getuser['msg'].stu)
   const [subjects, setsubjects] = useState("");
   const [sem, setsem] = useState("");
   const [date, setdate] = useState("2023-01-05");
-  const alluser = getuser.msg.stu;
+  const [alluser,setalluser]=useState({})
+  const [attendance,setattendance] = useState({});
   const [filterdata,setfilterdata]=useState([])
   // console.log(getuser.msg.attend)
-  const attendance = getuser.msg.attend;
+  useEffect(()=>{
+    async function getalldata(){
+      const data=await axios.get(visual)
+      setalluser(data.data.msg.stu)
+      setattendance(data.data.msg.attend)
+      setloading(false)
+    }
+    getalldata()
+  },[])
   const options = [
     subjectslist.map((data) => {
       return { value: data, label: data };
@@ -30,13 +42,12 @@ export default function Visuals() {
     }),
   ];
   useEffect(() => {
-    setfilterdata(attendance.filter((attend) => {
-      return attend.todaysdate === date;
-    }))
-    console.log(filterdata);
-    console.log(attendance)
-  }, [date]);
-  console.log(filterdata)
+    if(!loading){
+      setfilterdata(attendance.filter((attend) => {
+        return attend.todaysdate === date;
+      }))
+    }
+  }, [attendance]);
   const MyComponent = () => (
     <>
       <Graphcomponent>
@@ -79,17 +90,17 @@ export default function Visuals() {
           />
         </div>
       </Graphcomponent>
-      <Horizontalchart filterdata={filterdata}/>
-      <Piechart filterdata={filterdata}/>
-      <Linechart filterdata={filterdata}/>
-      <Polarchart filterdata={filterdata}/>
+      <Horizontalchart filterdata={filterdata} alluser={alluser}/>
+      <Piechart filterdata={filterdata} alluser={alluser}/>
+      <Linechart filterdata={filterdata} alluser={alluser}/>
+      <Polarchart filterdata={filterdata} alluser={alluser}/>
     </>
   );
-  console.log(date);
 
   return (
     <>
-      <MyComponent />
+    <h1>{loading}</h1>
+      {loading?<Loading />:<MyComponent />}
     </>
   );
 }

@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import styled from 'styled-components';
 
 
 ChartJS.register(
@@ -44,7 +45,6 @@ const options = {
     let subj={
       "TCS":0, "SE":0, "IP":0, "CN":0, "DWM":0
   }
-    const [datas,setdatas]=useState()
     console.log(props.filterdata[0])
     props.filterdata.map((data)=>{
       subj[data.subject]+=1
@@ -62,11 +62,19 @@ const options = {
         ],
       });
     return(
-        <div style={{width:'50%', height:'50%'}}>
-            {
-                console.log("dataaaaaaaa", data)
-            }
+        <Linecomponent  style={{width:'50%',height:"50%"}}>
             <Line data={data} options={options}/>
-         </div>)
+         </Linecomponent>)
 }
+const Linecomponent=styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+    height:50%;
+   @media (max-width:950px) {
+    width: 100% !important;
+    height: 100% !important;
+   }
+
+`
 export default Linechart;

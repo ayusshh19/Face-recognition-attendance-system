@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function Usercard({bgcard,logoimg,heading,styleclass}) {
+export default function Usercard({bgcard,logoimg,heading,styleclass,userclick}) {
   const Usercardcontainer = styled.div`
 max-width: 450px;
 margin: 1rem;
@@ -41,13 +41,13 @@ margin: 1rem;
   .blurbg h1 {
     text-transform: uppercase;
   }
-  .logoimg {
+  .logoimg1 {
     position: absolute;
     top: 25%;
     left: 45%;
     z-index: 999;
   }
-  .logoimg img {
+  .logoimg1 img {
     width: 3rem;
     height: 3rem;
     border-radius: 100%;
@@ -65,8 +65,8 @@ margin: 1rem;
 `;
   return (
     <Usercardcontainer>
-      <div className="usercomponent" data-aos={styleclass} >
-        <div className="logoimg">
+      <div className="usercomponent" data-aos={styleclass} onClick={userclick} >
+        <div className="logoimg1">
           <img src={logoimg} alt="" srcset="" />
         </div>
         <div className="blurbg">

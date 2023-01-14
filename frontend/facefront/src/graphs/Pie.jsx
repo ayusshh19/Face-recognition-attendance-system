@@ -1,5 +1,6 @@
 import { useState} from 'react';
 import { Pie } from 'react-chartjs-2';
+import styled from 'styled-components';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -7,8 +8,6 @@ ChartJS.register(ArcElement, Tooltip, Legend);
     let subj={
       "TCS":0, "SE":0, "IP":0, "CN":0, "DWM":0
   }
-    const [datas,setdatas]=useState()
-    console.log(props.filterdata[0])
     props.filterdata.map((data)=>{
       subj[data.subject]+=1
       // setdatas({...datas,[data.subject]:datas[data.subject]+1})
@@ -38,11 +37,17 @@ ChartJS.register(ArcElement, Tooltip, Legend);
         ],
       });
     return(
-        <div style={{width:'50%', height:'50%'}}>
-            {
-                console.log("dataaaaaaaa", data)
-            }
+        <Piecomponent style={{width:'50%',height:"50%"}}>
             <Pie data={data} />
-         </div>)
+         </Piecomponent>)
 }
+const Piecomponent=styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   @media (max-width:950px) {
+    width: 100% !important;
+   }
+
+`
 export default Piechart;

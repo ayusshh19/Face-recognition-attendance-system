@@ -147,6 +147,7 @@ def create_dataset(username):
 @api_view(['GET', 'POST'])
 def registerapi(request):
     if request.method == 'POST':
+        print(request.data)
         username = request.data.get('username')
         serializer = Userserializer(data=request.data)
         if serializer.is_valid():
@@ -161,6 +162,7 @@ def registerapi(request):
             else:
                 res = {'msg', 'Username does not exist!!!'}
             return Response(res, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'GET':
         user = User.objects.all()

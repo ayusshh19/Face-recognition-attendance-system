@@ -1,47 +1,86 @@
-import React from 'react'
-import styled from 'styled-components'
-import Usercard from '../components/Usercard'
+import React, { useState } from "react";
+import styled from "styled-components";
+import Usercard from "../components/Usercard";
 import card1bg from "../assets/cardsbg1.jpg";
 import card2bg from "../assets/cardsbg2.jpeg";
 import card3bg from "../assets/cardsbg3.jpeg";
 import register from "../assets/register.png";
 import train from "../assets/train.png";
 import visual from "../assets/visual.png";
-import Displaycard from '../components/Displaycard';
-import users from '../assets/users.webp'
-import attendance from '../assets/attendance.webp'
-import Nav from '../components/Nav'
-import Register from "../components/Register";
+import Displaycard from "../components/Displaycard";
+import users from "../assets/users.webp";
+import attendance from "../assets/attendance.webp";
+import Nav from "../components/Nav";
 import About from "../components/About";
-import Footer from '../components/Footer'
-import Gif from '../components/Gif';
-
-
+import Footer from "../components/Footer";
+import Gif from "../components/Gif";
+import Register from "../components/Register";
+import Loading from "./Loading";
+import axios from "axios";
+import { traindata } from "../apiroutes/apiroutes";
 export default function Home() {
-
-  return (
+  const [registertag, setregistertag] = useState(false);
+  const [trainloading, settrainloading] = useState(false);
+  const setregister = () => {
+    setregistertag(!registertag);
+  };
+  const traindatas =async () => {
+    settrainloading(!trainloading)
+    const data=await axios.get(traindata)
+    console.log(data)
+    settrainloading(!trainloading)
+  };
+  return trainloading ? (
+    <Loading />
+  ) : (
     <>
-    <Nav/>
-    <Gif/>
-    {/* <Register/> */}
-    <Homecontainer>
-      <Usercard styleclass={"fade-right"} bgcard={card1bg} logoimg={register} heading={'REGISTER USER AND ADD DATASET'}/>
-      <Usercard styleclass={"fade-down"} bgcard={card2bg} logoimg={train} heading={'TRAIN DATA'}/>
-      <Usercard styleclass={"fade-left"} bgcard={card3bg} logoimg={visual} heading={'VISUALISE DATA'}/>
-    </Homecontainer>
-    <Displaycardhome>
-      <Displaycard  styleclass={"fade-down"}
-      userimg={users} heading1={'TOTAL COUNT'} count={'135'}/>
-      <Displaycard  styleclass={"fade-down"}
-      userimg={attendance} heading1={'TODAYS AVERAGE ATTENDANCE'} count={'78%'}/>
-    </Displaycardhome>
-    <About/>
-    <Footer/>
+      <Nav />
+      {registertag ? <Register /> : <Gif />}
+
+      <Homecontainer>
+        <Usercard
+          userclick={setregister}
+          styleclass={"fade-right"}
+          bgcard={card1bg}
+          logoimg={register}
+          heading={"REGISTER USER AND ADD DATASET"}
+        />
+        <Usercard
+          userclick={traindatas}
+          styleclass={"fade-down"}
+          bgcard={card2bg}
+          logoimg={train}
+          heading={"TRAIN DATA"}
+        />
+        <Usercard
+          userclick={""}
+          styleclass={"fade-left"}
+          bgcard={card3bg}
+          logoimg={visual}
+          heading={"VISUALISE DATA"}
+        />
+      </Homecontainer>
+      <Displaycardhome>
+        <Displaycard
+          styleclass={"fade-down"}
+          userimg={users}
+          heading1={"TOTAL COUNT"}
+          count={"135"}
+        />
+        <Displaycard
+          styleclass={"fade-down"}
+          userimg={attendance}
+          heading1={"TODAYS AVERAGE ATTENDANCE"}
+          count={"78%"}
+        />
+      </Displaycardhome>
+      <About />
+      <Footer />
     </>
-  )
+  );
 }
 
-const Homecontainer=styled.div`
+const Homecontainer = styled.div`
   width: 100%;
   position: relative;
   display: flex;
@@ -49,11 +88,11 @@ const Homecontainer=styled.div`
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-`
-const Displaycardhome=styled.div`
+`;
+const Displaycardhome = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-`
+`;
