@@ -18,8 +18,8 @@ export default function Visuals() {
   const [subjects, setsubjects] = useState("");
   const [sem, setsem] = useState("");
   const [date, setdate] = useState("2023-01-05");
-  const [alluser,setalluser]=useState({})
-  const [attendance,setattendance] = useState({});
+  const [alluser,setalluser]=useState([])
+  const [attendance,setattendance] = useState([]);
   const [filterdata,setfilterdata]=useState([])
   // console.log(getuser.msg.attend)
   useEffect(()=>{
@@ -28,9 +28,10 @@ export default function Visuals() {
       setalluser(data.data.msg.stu)
       setattendance(data.data.msg.attend)
       setloading(false)
+      console.log(alluser)
     }
     getalldata()
-  },[])
+  },[date])
   const options = [
     subjectslist.map((data) => {
       return { value: data, label: data };

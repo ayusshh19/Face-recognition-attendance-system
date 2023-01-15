@@ -135,7 +135,7 @@ def create_dataset(username):
         # @params with the millisecond of delay 1
         cv2.waitKey(1)
         # To get out of the loop
-        if (sampleNum > 300):
+        if (sampleNum > 200):
             break
 
     # Stoping the videostream
@@ -156,11 +156,11 @@ def registerapi(request):
                 try:
                     create_dataset(username)
                     res = {
-                        'msg', 'User successfully resgistered!! and Dataset created!'}
+                        'msg': 'User successfully resgistered!! and Dataset created!'}
                 except:
                     print('An exception occurred')
             else:
-                res = {'msg', 'Username does not exist!!!'}
+                res = {'msg': 'Username does not exist!!!'}
             return Response(res, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -171,7 +171,6 @@ def registerapi(request):
 
 
 def predict(face_aligned, svc, threshold=0.7):
-    face_encodings = np.zeros((1, 128))
     try:
         x_face_locations = face_recognition.face_locations(face_aligned)
         faces_encodings = face_recognition.face_encodings(
@@ -284,9 +283,9 @@ def mark_your_attendance(request, subject):
            
             print("INFO : inside for loop")
             (x, y, w, h) = face_utils.rect_to_bb(face)
-            print(face)
+            # print(face)
             face_aligned = fa.align(frame, gray_frame, face)
-            print(face_aligned)
+            # print(face_aligned)
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
 
             (pred, prob) = predict(face_aligned, svc)
@@ -308,7 +307,7 @@ def mark_your_attendance(request, subject):
                     print(present)
                     log_time[pred] = datetime.datetime.now()
                     count[pred] = count.get(pred, 0) + 1
-                    print(pred, present[pred], count[pred])
+                    # print(pred, present[pred], count[pred])
                 cv2.putText(frame, str(person_name) + str(prob), (x+6,
                             y+h-6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
@@ -354,6 +353,7 @@ def mark(request):
     if request.method == 'POST':
         try:
             subject = request.data.get('subject')
+            print(subject)
             mark_your_attendance(request, subject)
             return Response({'msg': 'Your attendance have been marked successfully!!!'}, status=status.HTTP_200_OK)
         except:
@@ -367,15 +367,19 @@ def mark(request):
 def update_attendance_in_db_in(present, subject):
     today = datetime.date.today()
     for person in present:
+        # print(person)
         user = User.objects.get(username=person)
+        # print(user)
         try:
             qs = Attendance.objects.get(
                 username=user, subject=subject, todaysdate=today)
+            print(qs)
         except:
             qs = None
 
         if qs is None:
             if present[person] == True:
+                print(present)
                 a = Attendance(username=user, subject=subject,
                                todaysdate=today, present=True)
                 a.save()
@@ -385,6 +389,7 @@ def update_attendance_in_db_in(present, subject):
                 a.save()
         else:
             if present[person] == True:
+                # print(present)
                 qs.present = True
                 qs.save(update_fields=['present'])
 

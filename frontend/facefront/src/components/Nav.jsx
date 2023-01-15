@@ -13,6 +13,7 @@ import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from '@mui/material/Button';
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -35,7 +36,10 @@ function Nav() {
     const markattend = await axios.post(mark,{
       'subject':subject,
     });
-    console.log(markattend);
+    if(markattend.status===200){
+      toast.success(markattend.data.msg)
+      handleClose()
+    }
   };
   return (
     <>

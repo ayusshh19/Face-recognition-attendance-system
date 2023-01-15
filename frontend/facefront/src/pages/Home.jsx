@@ -18,8 +18,17 @@ import Gif from "../components/Gif";
 import Register from "../components/Register";
 import Loading from "./Loading";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { traindata } from "../apiroutes/apiroutes";
 export default function Home() {
+  const toastobj = {
+    position: "top-center",
+    autoClose: 6000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
   const [registertag, setregistertag] = useState(false);
   const [trainloading, settrainloading] = useState(false);
   const setregister = () => {
@@ -33,7 +42,10 @@ export default function Home() {
     settrainloading(!trainloading)
     const data=await axios.get(traindata)
     console.log(data)
-    settrainloading(!trainloading)
+    if(data){
+      settrainloading(false)
+      toast.success(data.data.msg,toastobj)
+    }
   };
   return trainloading ? (
     <Loading />
@@ -41,7 +53,7 @@ export default function Home() {
     <>
       <Nav />
       {registertag ? <Register /> : <Gif />}
-
+      <ToastContainer />
       <Homecontainer>
         <Usercard
           userclick={setregister}

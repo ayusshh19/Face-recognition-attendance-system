@@ -30,7 +30,13 @@ export default function Register() {
         Institute,
         current_sem,
       });
-      console.log(data);
+      console.log(data)
+
+      if(data.status==400){
+        toast.error(data.data.msg)
+      }else{
+        toast.success(data.msg,toastobj)
+      }
     }
   };
   const toastobj = {
@@ -148,7 +154,6 @@ export default function Register() {
         <path class="a3" d="M0 40 L30 72 L60 40"></path>
       </svg>
 
-      <ToastContainer />
     </div>
   );
 }
