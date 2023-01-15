@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Usercard from "../components/Usercard";
 import card1bg from "../assets/cardsbg1.jpg";
 import card2bg from "../assets/cardsbg2.jpeg";
@@ -24,6 +25,10 @@ export default function Home() {
   const setregister = () => {
     setregistertag(!registertag);
   };
+  const navigate = useNavigate();
+  const tovisual=()=>{
+    navigate('/visual')
+  }
   const traindatas =async () => {
     settrainloading(!trainloading)
     const data=await axios.get(traindata)
@@ -53,7 +58,7 @@ export default function Home() {
           heading={"TRAIN DATA"}
         />
         <Usercard
-          userclick={""}
+          userclick={tovisual}
           styleclass={"fade-left"}
           bgcard={card3bg}
           logoimg={visual}
