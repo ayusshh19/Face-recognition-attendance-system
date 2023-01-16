@@ -6,7 +6,7 @@ export default function About() {
   return (
     <>
       <h1>About</h1>
-      <div className="outter_div2">
+      <div className="outter_div2" id="about">
         <div className="about">
           <div className="para">
             <h4>

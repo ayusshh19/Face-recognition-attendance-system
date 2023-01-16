@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 import "../style/nav.css";
 import { mark } from "../apiroutes/apiroutes";
 import Box from "@mui/material/Box";
@@ -46,10 +47,10 @@ function Nav() {
       <header>
         <h1>DMCE</h1>
         <nav>
-          <a href="/#">HOME</a>
-          <a href="/#">ABOUT</a>
-          <a href="/#">RECORDS</a>
-          <a href="/#">VISUALS</a>
+          <Link to={'/'}>HOME</Link>
+          <Link to={'#about'}>ABOUT</Link>
+          <Link to={'#records'}>RECORDS</Link>
+          <Link to={'/visual'}>VISUALS</Link>
         </nav>
         <button className="dash" onClick={handleOpen}>
           Attandance

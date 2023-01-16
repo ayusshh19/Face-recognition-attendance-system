@@ -54,7 +54,7 @@ export default function Home() {
       <Nav />
       {registertag ? <Register /> : <Gif />}
       <ToastContainer />
-      <Homecontainer>
+      <Homecontainer >
         <Usercard
           userclick={setregister}
           styleclass={"fade-right"}
@@ -77,7 +77,7 @@ export default function Home() {
           heading={"VISUALISE DATA"}
         />
       </Homecontainer>
-      <Displaycardhome>
+      <Displaycardhome id="records">
         <Displaycard
           styleclass={"fade-down"}
           userimg={users}
