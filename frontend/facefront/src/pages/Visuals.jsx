@@ -17,7 +17,7 @@ export default function Visuals() {
   // const userdata=JSON.parse(getuser['msg'].stu)
   const [subjects, setsubjects] = useState("");
   const [sem, setsem] = useState("");
-  const [date, setdate] = useState("2023-01-05");
+  const [date, setdate] = useState("2023-01-24");
   const [alluser,setalluser]=useState([])
   const [attendance,setattendance] = useState([]);
   const [filterdata,setfilterdata]=useState([])
@@ -43,9 +43,10 @@ export default function Visuals() {
     }),
   ];
   useEffect(() => {
+    console.log(attendance)
     if(!loading){
       setfilterdata(attendance.filter((attend) => {
-        return attend.todaysdate === date;
+        return attend.todaysdate === date && attend.present;
       }))
     }
   }, [attendance]);
@@ -66,17 +67,12 @@ export default function Visuals() {
           />
         </div>
         <div className="sems">
-          <h2>select semester</h2>
-          <Select
-            className="basic-single"
-            classNamePrefix="select"
-            components={animatedComponents}
-            onChange={(e) => setsem(e.value)}
-            options={sems[0]}
-            value={sems[0].filter(function (option) {
-              return option.value === sem;
-            })}
-          />
+          <h2>Download Excel</h2>
+            <Excelbutton>
+              <button>
+                Excel data
+              </button>
+            </Excelbutton>
         </div>
         <div className="date">
           <h2>select Date</h2>
@@ -135,3 +131,20 @@ const Graphcomponent = styled.div`
     border: 2px solid white;
   }
 `;
+const Excelbutton=styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+    max-width: 400px;
+    /* background-color: white; */
+    button{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #373B44 0%, #4286F4 100%);
+border: 1px solid #892020;
+border-radius: 10px;
+    }
+`

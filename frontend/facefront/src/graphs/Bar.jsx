@@ -33,6 +33,7 @@ const Horizontalchart = (props) => {
         return attend.subject === sub;
       })
     );
+    console.log(fildat)
   }, [sub]);
   const options = {
     indexAxis: "x",

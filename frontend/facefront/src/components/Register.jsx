@@ -4,7 +4,7 @@ import registration from "../assets/user-registration.png";
 import { ToastContainer, toast } from "react-toastify";
 import { register } from "../apiroutes/apiroutes";
 import axios from "axios";
-export default function Register() {
+export default function Register({userclick}) {
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (handlevalidation()) {
@@ -31,11 +31,12 @@ export default function Register() {
         current_sem,
       });
       console.log(data)
-
+      userclick()
       if(data.status==400){
         toast.error(data.data.msg)
       }else{
         toast.success(data.msg,toastobj)
+        
       }
     }
   };

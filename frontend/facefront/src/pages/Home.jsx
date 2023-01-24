@@ -52,7 +52,7 @@ export default function Home() {
   ) : (
     <>
       <Nav />
-      {registertag ? <Register /> : <Gif />}
+      {registertag ? <Register userclick={setregister}/> : <Gif />}
       <ToastContainer />
       <Homecontainer >
         <Usercard
