@@ -2,12 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import Home from "../assets/home2.gif";
 import '../style/register.css';
+import Textanimation from "./Textanimation";
 
 function Gif() {
   return (
     <Outergif className="outter_div">
       <div className="gif">
-        <img src={Home}></img>
+        <Textanimation />
       </div>
       <svg class="arrows">
 							<path class="a1" d="M0 0 L30 32 L60 0"></path>

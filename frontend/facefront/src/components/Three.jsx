@@ -45,7 +45,7 @@ function Displaythree(){
                         },
                         repulse: {
                             distance: 200,
-                            duration: 0.4,
+                            duration: 2,
                         },
                     },
                 },
@@ -70,7 +70,7 @@ function Displaythree(){
                             default: "bounce",
                         },
                         random: false,
-                        speed: 6,
+                        speed: 2,
                         straight: false,
                     },
                     number: {

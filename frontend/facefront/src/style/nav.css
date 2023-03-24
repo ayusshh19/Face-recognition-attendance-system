@@ -26,6 +26,9 @@ h1{
     font-family: 'Moon Dance', cursive;
     color: white;
 }
+h1 span{
+color: linear-gradient(#373B44,#4286F4) !important;
+}
 button{
     height: 35px;
     width: 115px;
