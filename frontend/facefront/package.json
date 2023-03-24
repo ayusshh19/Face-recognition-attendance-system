@@ -23,6 +23,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1",
+    "react-use": "^17.4.0",
     "reactjs-popup": "^2.0.5",
     "styled-components": "^5.3.6",
     "tsparticles": "^2.9.3",
