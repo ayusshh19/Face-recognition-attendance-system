@@ -18,9 +18,10 @@ import Gif from "../components/Gif";
 import Register from "../components/Register";
 import Loading from "./Loading";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { traindata } from "../apiroutes/apiroutes";
+import Displaythree from "../components/Three";
 export default function Home() {
   const toastobj = {
     position: "top-center",
@@ -35,16 +36,16 @@ export default function Home() {
     setregistertag(!registertag);
   };
   const navigate = useNavigate();
-  const tovisual=()=>{
-    navigate('/visual')
-  }
-  const traindatas =async () => {
-    settrainloading(!trainloading)
-    const data=await axios.get(traindata)
-    console.log(data)
-    if(data){
-      settrainloading(false)
-      toast.success(data.data.msg,toastobj)
+  const tovisual = () => {
+    navigate("/visual");
+  };
+  const traindatas = async () => {
+    settrainloading(!trainloading);
+    const data = await axios.get(traindata);
+    console.log(data);
+    if (data) {
+      settrainloading(false);
+      toast.success(data.data.msg, toastobj);
     }
   };
   return trainloading ? (
@@ -52,9 +53,12 @@ export default function Home() {
   ) : (
     <>
       <Nav />
-      {registertag ? <Register userclick={setregister}/> : <Gif />}
+      {registertag ? <Register userclick={setregister} /> : <Gif />}
       <ToastContainer />
-      <Homecontainer >
+      <Homecontainer>
+        <div className="displaytree">
+          <Displaythree />
+        </div>
         <Usercard
           userclick={setregister}
           styleclass={"fade-right"}
@@ -105,6 +109,10 @@ const Homecontainer = styled.div`
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+  .displaytree {
+    z-index: -100;
+    background-color: aqua !important;
+  }
 `;
 const Displaycardhome = styled.div`
   width: 100%;

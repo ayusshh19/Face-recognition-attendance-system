@@ -41,6 +41,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import Userserializer,Attendanceserializer
 from django.db.models import Q
+import csv
+from django.http import HttpResponse
+from xlsxwriter.utility import xl_rowcol_to_cell
 mpl.use('Agg')
 
 
@@ -417,3 +420,21 @@ def visualisation(request):
         stuserializer=Userserializer(student,many=True)
         attendserializer=Attendanceserializer(attendance,many=True)
         return Response({'msg': {'stu':stuserializer.data,'attend':attendserializer.data}})
+
+def exceldata(request):
+    df=pd.read_excel('TE-A EVEN SEMESTER 2022-23 Attendance.xlsx',sheet_name='Attd sheet-practical-1')[10:]
+    print(df)
+    # response = HttpResponse(content_type='text/csv')
+    # response['Content-Disposition'] = 'attachment; filename="users.csv"'
+    # writer = csv.writer(response)
+    # writer.writerow(['username','present', 'todaysdate','currenttime','subject'])
+    # users=Attendance.objects.all().values_list('username','present', 'todaysdate','currenttime','subject')
+    # for user in users:
+    #     user=list(user)
+    #     user[0]=User.objects.filter(id=user[0]).values_list('username')[0]
+    #     user=tuple(user)
+    #     print(user)
+    #     writer.writerow(user)
+
+    # return response
+
