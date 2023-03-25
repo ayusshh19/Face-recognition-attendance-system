@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import load from '../assets/trainload1.gif'
+import load from '../assets/image.gif'
 export default function Loading() {
   return (
     <Loadingcomponent>
@@ -18,8 +18,8 @@ const Loadingcomponent=styled.div`
   align-items: center;
   color: whitesmoke;
   img{
-    width: 30%;
-    height: 30%;
+    width: 50%;
+    height: 50%;
   }
 `
 
