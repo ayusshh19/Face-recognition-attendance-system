@@ -121,11 +121,6 @@ def create_dataset(username):
                 continue
             cv2.imwrite(directory+'/'+str(sampleNum)+'.jpg', face_aligned)
             face_aligned = imutils.resize(face_aligned, width=400)
-            # cv2.imshow("Image Captured",face_aligned)
-            # @params the initial point of the rectangle will be x,y and
-            # @params end point will be x+width and y+height
-            # @params along with color of the rectangle
-            # @params thickness of the rectangle
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
             # Before continuing to the next loop, I want to give it a little pause
             # waitKey of 100 millisecond
@@ -224,6 +219,8 @@ def train(request):
             except:
                 print("removed")
                 os.remove(imagefile)
+                
+
     targets = np.array(y)
     encoder = LabelEncoder()
     encoder.fit(y)
