@@ -417,21 +417,63 @@ def visualisation(request):
         stuserializer=Userserializer(student,many=True)
         attendserializer=Attendanceserializer(attendance,many=True)
         return Response({'msg': {'stu':stuserializer.data,'attend':attendserializer.data}})
-
+from datetime import datetime
+from datetime import date
+from django.http import FileResponse
 def exceldata(request):
-    df=pd.read_excel('TE-A EVEN SEMESTER 2022-23 Attendance.xlsx',sheet_name='Attd sheet-practical-1')[10:]
-    print(df)
-    # response = HttpResponse(content_type='text/csv')
-    # response['Content-Disposition'] = 'attachment; filename="users.csv"'
-    # writer = csv.writer(response)
-    # writer.writerow(['username','present', 'todaysdate','currenttime','subject'])
-    # users=Attendance.objects.all().values_list('username','present', 'todaysdate','currenttime','subject')
-    # for user in users:
-    #     user=list(user)
-    #     user[0]=User.objects.filter(id=user[0]).values_list('username')[0]
-    #     user=tuple(user)
-    #     print(user)
-    #     writer.writerow(user)
+    dataframe=pd.read_excel('C:\\Users\\AYUSH SHUKLA\\Desktop\\Face-recognition-attendance-system\\backend\\facerecog\\Attendance.xlsx' ,date_parser=lambda x: pd.to_datetime(x, format='%Y-%m-%d'))
+    # Create a list of data to add to the column
+    student=User.objects.all()
+    attendance=Attendance.objects.all()
+    stuserializer=Userserializer(student,many=True)
+    attendserializer=Attendanceserializer(attendance,many=True)
+    # print(stuserializer.data)
+    usernamelist=[]
+    for item in stuserializer.data:
+       usernamelist.append([int(item['rollno']),item['username'],item['id']])
+    # print(attendserializer.data)
+    # print(attendserializer.data)
+    sorted_list = sorted(usernamelist, key=lambda x: x[0])
+    # print(sorted_list)
+    rollnolist=[]
+    namelist=[]
+    datelist=[]
+    for item in sorted_list:
+        rollnolist.append(item[0])
+        namelist.append(item[1])
+    for item in attendserializer.data:
+        date_time_obj = datetime.strptime(item['todaysdate'], '%Y-%m-%d')
+        if date_time_obj>=datetime(2023,3,1):
+            datelist.append(date.isoformat(date_time_obj))
+    limited=list(set(datelist))
+    mainlist=[]
+    for limit in limited:
+        finallist=[]
+        for item in attendserializer.data:
+            if item['todaysdate'] in limit:
+                finallist.append(item['username'])
+        mainlist.append([limit,list(set(finallist))])
+    # Add the list of data to the particular column
+    dataframe['Name'] = namelist
+    dataframe['rollno'] = rollnolist
+    for item in mainlist:
+        listseq=[]
+        for user in sorted_list:
+            print(user)
+            if user[2] in item[1]:
+                listseq.append('Present')
+            else:
+                listseq.append('absent')
+        print(listseq)
+        print(item)
+        dataframe[item[0]]=listseq
+    # Save the updated DataFrame to a new Excel file
+    dataframe.to_excel('Attendance.xlsx', index=False)
+    excel_file = open('C:\\Users\\AYUSH SHUKLA\\Desktop\\Face-recognition-attendance-system\\backend\\facerecog\\Attendance.xlsx', 'rb')
+    
+    # Return the file as a response with the appropriate content type and headers
+    response = FileResponse(excel_file, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="example.xlsx"'
+    return response
 
-    # return response
 
