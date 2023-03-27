@@ -45,10 +45,10 @@ function Nav() {
       <header>
         <h1>DMCE</h1>
         <nav>
-          <Link to={()=>navigate('/')}>HOME</Link>
+          <Link onClick={()=>navigate('/')}>HOME</Link>
           <Link to={'about'} smooth={true}>ABOUT</Link>
           <Link to={'records'} smooth={true}>RECORDS</Link>
-          <Link to={()=>navigate('visual')}>VISUALS</Link>
+          <Link onClick={()=>navigate('/visual')}>VISUALS</Link>
         </nav>
         <button className="dash" onClick={handleOpen}>
           Attandance
