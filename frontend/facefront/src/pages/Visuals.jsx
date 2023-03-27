@@ -7,7 +7,7 @@ import Piechart from "../graphs/Pie";
 import Linechart from "../graphs/Line";
 import Polarchart from "../graphs/Polar";
 import axios from "axios";
-import { visual } from "../apiroutes/apiroutes.js";
+import { visual ,excel} from "../apiroutes/apiroutes.js";
 import Loading from "./Loading";
 import CustomPaginationActionsTable from "../components/Table";
 const animatedComponents = makeAnimated();
@@ -23,6 +23,45 @@ export default function Visuals() {
   const [attendance, setattendance] = useState([]);
   const [filterdata, setfilterdata] = useState([]);
   // console.log(getuser.msg.attend)
+  const  GetMineType =(extension)=>{
+    switch (extension.toLowerCase())
+    {
+        
+        case "csv": return "text/csv";
+        case "cur": return "application/octet-stream";
+        case "cxx": return "text/plain";
+        case "dat": return "application/octet-stream";
+        case "datasource": return "application/xml";
+        case "dbproj": return "text/plain";
+        case "dcr": return "application/x-director";
+       case "docx": return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        case "dot": return "application/msword";
+        case "jpb": return "application/octet-stream";
+        case "jpe": return "image/jpeg";
+        case "jpeg": return "image/jpeg";
+        case "jpg": return "image/jpeg";
+        //etc ......
+        
+      }
+}
+  function downloadBlob(blob, filename,ext) {
+    // Create an object URL for the blob object
+    console.info(GetMineType(ext));
+    const url = URL.createObjectURL(new Blob([blob],{type: `${GetMineType(ext)}`}));
+  
+    // Create a new anchor element
+    const a = document.createElement('a');
+  
+    // Set the href and download attributes for the anchor element
+    // You can optionally set other attributes like `title`, etc
+    // Especially, if the anchor element will be attached to the DOM
+    a.href = url;
+    a.download = filename || 'download';
+  
+    // Click handler that releases the object URL after the element has been clicked
+    // This is required for one-off downloads of the blob content
+    a.click();
+  }
   useEffect(() => {
     async function getalldata() {
       const data = await axios.get(visual);
@@ -53,6 +92,24 @@ export default function Visuals() {
       );
     }
   }, [attendance]);
+  const getexcel=()=>{
+    fetch(excel)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        // this.setState({ downloadUrl: url });
+        const link = document.createElement('a');
+        // console.log(link)
+        link.href = url;
+        link.setAttribute('download', 'file.xlsx');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch(error => console.log(error));
+  }
   const MyComponent = () => (
     <>
       <Graphcomponent>
@@ -71,7 +128,7 @@ export default function Visuals() {
         </div>
         <div className="sems">
           <h2>Download Excel</h2>
-          <Excelbutton>
+          <Excelbutton onClick={getexcel}>
             <button>Excel data</button>
           </Excelbutton>
         </div>

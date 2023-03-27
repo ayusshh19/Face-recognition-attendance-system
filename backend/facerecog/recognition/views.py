@@ -459,13 +459,13 @@ def exceldata(request):
     for item in mainlist:
         listseq=[]
         for user in sorted_list:
-            print(user)
+            # print(user)
             if user[2] in item[1]:
                 listseq.append('Present')
             else:
                 listseq.append('absent')
-        print(listseq)
-        print(item)
+        # print(listseq)
+        # print(item)
         dataframe[item[0]]=listseq
     # Save the updated DataFrame to a new Excel file
     dataframe.to_excel('Attendance.xlsx', index=False)
