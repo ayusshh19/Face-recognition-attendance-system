@@ -18,6 +18,10 @@ margin: 1rem;
     border-radius: 1.5rem;
     margin: 1rem;
     z-index: 1;
+    cursor: pointer;
+  }
+  .usercomponent:hover{
+    transform: translateY(-20px);
   }
   .blurbg {
     position: absolute;
