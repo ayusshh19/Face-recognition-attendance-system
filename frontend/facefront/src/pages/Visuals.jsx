@@ -7,31 +7,32 @@ import Piechart from "../graphs/Pie";
 import Linechart from "../graphs/Line";
 import Polarchart from "../graphs/Polar";
 import axios from "axios";
-import {visual} from '../apiroutes/apiroutes.js'
+import { visual } from "../apiroutes/apiroutes.js";
 import Loading from "./Loading";
+import CustomPaginationActionsTable from "../components/Table";
 const animatedComponents = makeAnimated();
 export default function Visuals() {
   const subjectslist = ["TCS", "SE", "IP", "CN", "DWM"];
   const semlist = ["1", "2", "3", "4", "5", "6", "7", "8"];
-  const [loading,setloading]=useState(true)
+  const [loading, setloading] = useState(true);
   // const userdata=JSON.parse(getuser['msg'].stu)
   const [subjects, setsubjects] = useState("");
   const [sem, setsem] = useState("");
   const [date, setdate] = useState("2023-01-24");
-  const [alluser,setalluser]=useState([])
-  const [attendance,setattendance] = useState([]);
-  const [filterdata,setfilterdata]=useState([])
+  const [alluser, setalluser] = useState([]);
+  const [attendance, setattendance] = useState([]);
+  const [filterdata, setfilterdata] = useState([]);
   // console.log(getuser.msg.attend)
-  useEffect(()=>{
-    async function getalldata(){
-      const data=await axios.get(visual)
-      setalluser(data.data.msg.stu)
-      setattendance(data.data.msg.attend)
-      setloading(false)
-      console.log(alluser)
+  useEffect(() => {
+    async function getalldata() {
+      const data = await axios.get(visual);
+      setalluser(data.data.msg.stu);
+      setattendance(data.data.msg.attend);
+      setloading(false);
+      console.log(alluser);
     }
-    getalldata()
-  },[date])
+    getalldata();
+  }, [date]);
   const options = [
     subjectslist.map((data) => {
       return { value: data, label: data };
@@ -43,11 +44,13 @@ export default function Visuals() {
     }),
   ];
   useEffect(() => {
-    console.log(attendance)
-    if(!loading){
-      setfilterdata(attendance.filter((attend) => {
-        return attend.todaysdate === date && attend.present;
-      }))
+    console.log(attendance);
+    if (!loading) {
+      setfilterdata(
+        attendance.filter((attend) => {
+          return attend.todaysdate === date && attend.present;
+        })
+      );
     }
   }, [attendance]);
   const MyComponent = () => (
@@ -68,11 +71,9 @@ export default function Visuals() {
         </div>
         <div className="sems">
           <h2>Download Excel</h2>
-            <Excelbutton>
-              <button>
-                Excel data
-              </button>
-            </Excelbutton>
+          <Excelbutton>
+            <button>Excel data</button>
+          </Excelbutton>
         </div>
         <div className="date">
           <h2>select Date</h2>
@@ -87,17 +88,20 @@ export default function Visuals() {
           />
         </div>
       </Graphcomponent>
-      <Horizontalchart filterdata={filterdata} alluser={alluser}/>
-      <Piechart filterdata={filterdata} alluser={alluser}/>
-      <Linechart filterdata={filterdata} alluser={alluser}/>
-      <Polarchart filterdata={filterdata} alluser={alluser}/>
+      <CustomPaginationActionsTable filterdata={filterdata} alluser={alluser} />
+      <Graphcomponents>
+        <Horizontalchart filterdata={filterdata} alluser={alluser} />
+        <Piechart filterdata={filterdata} alluser={alluser} />
+        <Linechart filterdata={filterdata} alluser={alluser} />
+        <Polarchart filterdata={filterdata} alluser={alluser} />
+      </Graphcomponents>
     </>
   );
 
   return (
     <>
-    <h1>{loading}</h1>
-      {loading?<Loading />:<MyComponent />}
+      <h1>{loading}</h1>
+      {loading ? <Loading /> : <MyComponent />}
     </>
   );
 }
@@ -116,6 +120,7 @@ const Graphcomponent = styled.div`
   > div h2 {
     color: white;
   }
+
   .css-13cymwt-control {
     background: linear-gradient(180deg, #373b44 0%, #4286f4 100%);
     backdrop-filter: blur(25px);
@@ -131,20 +136,28 @@ const Graphcomponent = styled.div`
     border: 2px solid white;
   }
 `;
-const Excelbutton=styled.div`
+const Excelbutton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-    max-width: 400px;
-    /* background-color: white; */
-    button{
-      width: 100%;
+  max-width: 400px;
+  /* background-color: white; */
+  button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #373b44 0%, #4286f4 100%);
+    border: 1px solid #892020;
+    border-radius: 10px;
+  }
+`;
+const Graphcomponents=styled.div`
       display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(180deg, #373B44 0%, #4286F4 100%);
-border: 1px solid #892020;
-border-radius: 10px;
-    }
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
 `

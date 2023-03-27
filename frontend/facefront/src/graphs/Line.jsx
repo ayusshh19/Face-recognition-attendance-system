@@ -62,7 +62,7 @@ const options = {
         ],
       });
     return(
-        <Linecomponent  style={{width:'50%',height:"50%"}}>
+        <Linecomponent >
             <Line data={data} options={options}/>
          </Linecomponent>)
 }
@@ -70,10 +70,12 @@ const Linecomponent=styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
-    height:50%;
+    width: 40%;
+    height: 30rem;
+    border:2px solid rgb(53, 162, 235);
    @media (max-width:950px) {
-    width: 100% !important;
-    height: 100% !important;
+    width: 80%;
+    height: 20rem;
    }
 
 `

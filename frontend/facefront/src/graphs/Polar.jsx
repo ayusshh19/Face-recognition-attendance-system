@@ -44,7 +44,7 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
         ],
       });
     return(
-        <Polarcomponent  style={{width:'50%',height:"50%"}}>
+        <Polarcomponent >
             <PolarArea data={data} />
          </Polarcomponent>)
 }
@@ -52,8 +52,12 @@ const Polarcomponent=styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
+   width: 40%;
+   height: 30rem;
+   border:2px solid rgb(53, 162, 235);
    @media (max-width:950px) {
-    width: 100% !important;
+    width: 80%;
+    height: 20rem;
    }
 
 `

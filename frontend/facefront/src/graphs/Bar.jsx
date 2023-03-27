@@ -95,7 +95,7 @@ const Horizontalchart = (props) => {
       <div className="bargraph">
         <Bar data={data} options={options} />
       </div>
-      <div className="studata">
+      {/* <div className="studata">
         <Listcomp>
         <h1 style={{color:'rgba(255, 99, 132, 1)'}}>Present students list</h1>
         {props.alluser.map((data) => {
@@ -128,7 +128,7 @@ const Horizontalchart = (props) => {
           ))
         })}
         </Listcomp>
-      </div>
+      </div> */}
     </Barcomponent>
   );
 };
@@ -137,57 +137,20 @@ const Barcomponent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 40%;
+  height: 30rem;
+  border:2px solid rgb(53, 162, 235);
   .bargraph {
-    width: 50%;
+    width: 100%;
   }
-  .studata {
-    width: 40%;
-    height: 25rem;
-    margin: 2rem;
-    overflow-y: auto;
-    color: white;
-  }
+
   @media (max-width:950px) {
     flex-wrap: wrap;
-    .studata{
-      width: 100%;
-      margin: 0.5rem;
-      font-size: 0.7rem;
-    }
+    width: 80%;
+    height: 20rem;
     .bargraph{
       width: 100%;
     }
   }
 `;
-const Listcomp=styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 2rem;
-  /* background: linear-gradient(180deg, #373b44 0%, #4286f4 100%);
-    backdrop-filter: blur(25px); */
-`
-const Listitembar=styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(255, 99, 132, 0.2);
-  border: 2px solid rgba(255, 99, 132, 1);
-  width: 100%;
-  height: 5rem;
-  margin: 0.3rem;
-  border-radius: 1rem;
-  .studatas{
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  
-`
 export default Horizontalchart;

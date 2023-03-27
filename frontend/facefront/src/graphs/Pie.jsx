@@ -37,7 +37,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
         ],
       });
     return(
-        <Piecomponent style={{width:'50%',height:"50%"}}>
+        <Piecomponent>
             <Pie data={data} />
          </Piecomponent>)
 }
@@ -45,8 +45,12 @@ const Piecomponent=styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
+   width: 40%;
+   height: 30rem;
+   border:2px solid rgb(53, 162, 235);
    @media (max-width:950px) {
-    width: 100% !important;
+    width: 80%;
+    height: 20rem;
    }
 
 `
