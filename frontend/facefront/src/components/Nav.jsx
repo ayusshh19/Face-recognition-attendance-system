@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-scroll'
 import "../style/nav.css";
 import { mark } from "../apiroutes/apiroutes";
 import Box from "@mui/material/Box";
@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from '@mui/material/Button';
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 const style = {
   position: "absolute",
@@ -26,6 +28,7 @@ const style = {
 function Nav() {
   const [open, setOpen] = React.useState(false);
   const [subject,setsubject]=React.useState('')
+  const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const markattendance = async () => {
@@ -42,10 +45,10 @@ function Nav() {
       <header>
         <h1>DMCE</h1>
         <nav>
-          <Link to={'/'}>HOME</Link>
-          <Link to={'#about'}>ABOUT</Link>
-          <Link to={'#records'}>RECORDS</Link>
-          <Link to={'/visual'}>VISUALS</Link>
+          <Link to={()=>navigate('/')}>HOME</Link>
+          <Link to={'about'} smooth={true}>ABOUT</Link>
+          <Link to={'records'} smooth={true}>RECORDS</Link>
+          <Link to={()=>navigate('visual')}>VISUALS</Link>
         </nav>
         <button className="dash" onClick={handleOpen}>
           Attandance
