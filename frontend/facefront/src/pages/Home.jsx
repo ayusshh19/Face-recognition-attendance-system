@@ -55,7 +55,7 @@ export default function Home() {
       <Nav />
       {registertag ? <Register userclick={setregister} /> : <Gif />}
       <ToastContainer />
-      <Homecontainer>
+      <Homecontainer id="homecards">
         <div className="displaytree">
           <Displaythree />
         </div>
