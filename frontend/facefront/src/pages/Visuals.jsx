@@ -18,7 +18,7 @@ export default function Visuals() {
   // const userdata=JSON.parse(getuser['msg'].stu)
   const [subjects, setsubjects] = useState("");
   const [sem, setsem] = useState("");
-  const [date, setdate] = useState("2023-01-24");
+  const [date, setdate] = useState("2023-03-28");
   const [alluser, setalluser] = useState([]);
   const [attendance, setattendance] = useState([]);
   const [filterdata, setfilterdata] = useState([]);
@@ -83,7 +83,7 @@ export default function Visuals() {
     }),
   ];
   useEffect(() => {
-    console.log(attendance);
+    // console.log(attendance);
     if (!loading) {
       setfilterdata(
         attendance.filter((attend) => {
