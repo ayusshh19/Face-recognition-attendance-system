@@ -21,11 +21,11 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
       // setdatas({...datas,[data.subject]:datas[data.subject]+1})
     })
     const [data, setData] = useState({
-        labels:["TCS", "SE", "IP", "CN", "DWM"],
+        labels:["TCS","CN", "IP", "SE", "DWM"],
         datasets: [
           {
             label: 'Dataset 1',
-            data:[subj['TCS'],subj['CN'],subj['SE'],subj['DWM'],subj['IP']],
+            data:[subj["TCS"], subj.CN, subj.IP, subj["SE"], subj["DWM"],],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',

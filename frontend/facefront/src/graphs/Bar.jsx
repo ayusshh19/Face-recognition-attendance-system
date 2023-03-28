@@ -22,11 +22,11 @@ ChartJS.register(
 const Horizontalchart = (props) => {
   const [sub, setsub] = useState("");
   const [fildat, setfilterdata] = useState([]);
-  let labels = ["TCS", "SE", "IP", "CN", "DWM"];
+  let labels = ["TCS", "CN", "IP", "SE", "DWM"];
   const getusers = props.filterdata.map((data) => {
     return data.username;
   });
-
+  console.log(props.filterdata)
   useEffect(() => {
     setfilterdata(
       props.filterdata.filter((attend) => {
@@ -58,21 +58,22 @@ const Horizontalchart = (props) => {
   };
   let subj = {
     TCS: 0,
-    SE: 0,
     IP: 0,
     CN: 0,
+    SE: 0,
     DWM: 0,
   };
 
   props.filterdata.map((data) => {
     subj[data.subject] += 1;
+    // console.log(subj)
   });
   const [data, setData] = useState({
-    labels: ["TCS", "SE", "IP", "CN", "DWM"],
+    labels: ["TCS","CN", "IP", "SE", "DWM"],
     datasets: [
       {
         label: "Dataset 1",
-        data: [subj["TCS"], subj["CN"], subj["SE"], subj["DWM"], subj["IP"]],
+        data: [subj["TCS"], subj.CN, subj.IP, subj["SE"], subj["DWM"],],
         borderColor: [
           "rgba(255, 99, 132, 1)",
           "rgba(54, 162, 235, 1)",

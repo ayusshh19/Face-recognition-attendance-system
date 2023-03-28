@@ -8,6 +8,7 @@ export default function Register({userclick}) {
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (handlevalidation()) {
+      // setload(!loading)
       const {
         username,
         firstname,
@@ -32,14 +33,22 @@ export default function Register({userclick}) {
       });
       console.log(data)
       userclick()
+      console.log('yeh kaya hai')
+      // setload(!loading)
       if(data.status==400){
+
         toast.error(data.data.msg)
       }else{
         toast.success(data.msg,toastobj)
         
       }
     }
+    else{
+      // setload(!loading)
+      toast.error('some thing went wrong')
+    }
   };
+  console.log('yeh nash kaya hai')
   const toastobj = {
     position: "top-center",
     autoClose: 6000,

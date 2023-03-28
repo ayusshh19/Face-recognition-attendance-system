@@ -51,11 +51,11 @@ const options = {
       // setdatas({...datas,[data.subject]:datas[data.subject]+1})
     })
     const [data, setData] = useState({
-        labels:["TCS", "SE", "IP", "CN", "DWM"],
+        labels:["TCS","CN", "IP", "SE", "DWM"],
         datasets: [
           {
             label: 'Dataset 1',
-            data:[subj['TCS'],subj['CN'],subj['SE'],subj['DWM'],subj['IP']],
+            data: [subj["TCS"], subj.CN, subj.IP, subj["SE"], subj["DWM"],],
             borderColor: 'rgb(53, 162, 235)',
             backgroundColor: 'rgba(53, 162, 235, 0.5)',
           },
