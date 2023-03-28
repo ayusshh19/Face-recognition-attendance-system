@@ -433,7 +433,7 @@ def exceldata(request):
     stuserializer=Userserializer(student,many=True)
     attendserializer=Attendanceserializer(attendance,many=True)
     # print(stuserializer.data)
-    print(attendserializer.data)
+    # print(attendserializer.data)
     usernamelist=[]
     for item in stuserializer.data:
        usernamelist.append([int(item['rollno']),item['username'],item['id']])
@@ -444,9 +444,11 @@ def exceldata(request):
     rollnolist=[]
     namelist=[]
     datelist=[]
+    Togettotal=[]
     for item in sorted_list:
         rollnolist.append(item[0])
         namelist.append(item[1])
+        Togettotal.append(0)
     for item in attendserializer.data:
         date_time_obj = datetime.datetime.strptime(item['todaysdate'], '%Y-%m-%d')
         if date_time_obj>=datetime.datetime(2023,3,1):
@@ -456,24 +458,35 @@ def exceldata(request):
     for limit in limited:
         finallist=[]
         for item in attendserializer.data:
-            print(f"uaha pe {item}")
+            # print(f"uaha pe {item}")
             if item['todaysdate'] in limit and item['present']:
                 finallist.append(item['username'])
         mainlist.append([limit,list(set(finallist))])
     # Add the list of data to the particular column
     dataframe['Name'] = namelist
     dataframe['rollno'] = rollnolist
+    percentcount=0
     for item in mainlist:
+        current=0
+        percentcount+=1
         listseq=[]
         for user in sorted_list:
             # print(user)
             if user[2] in item[1]:
+                Togettotal[current]+=1
                 listseq.append('Present')
             else:
                 listseq.append('absent')
+            current+=1
         # print(listseq)
         # print(item)
         dataframe[item[0]]=listseq
+    print(Togettotal)
+    percentfinal=[]
+    for item in Togettotal:
+        percentfinal.append((item/percentcount)*100)
+    dataframe['Total'] = Togettotal
+    dataframe['Attendance percentage'] = percentfinal
     # Save the updated DataFrame to a new Excel file
     dataframe.to_excel('Attendance.xlsx', index=False)
     excel_file = open('C:\\Users\\AYUSH SHUKLA\\Desktop\\Face-recognition-attendance-system\\backend\\facerecog\\Attendance.xlsx', 'rb')
