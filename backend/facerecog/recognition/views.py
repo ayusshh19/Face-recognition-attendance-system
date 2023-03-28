@@ -289,11 +289,12 @@ def mark_your_attendance(request, subject):
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
 
             (pred, prob) = predict(face_aligned, svc)
-            print(pred)
+            # print(pred)
             if (pred != [-1]):
 
                 person_name = encoder.inverse_transform(np.ravel([pred]))[0]
                 pred = person_name
+                # print(f"pred {pred}")
                 if count[pred] == 0:
                     start[pred] = time.time()
                     count[pred] = count.get(pred, 0) + 1
@@ -304,17 +305,20 @@ def mark_your_attendance(request, subject):
                 # if count[pred] == 4 and (time.time()-start) <= 1.5:
                 else:
                     present[pred] = True
-                    print(present)
+                    # print('yaaha issue nhi')
+                    # print(present)
                     log_time[pred] = datetime.datetime.now()
                     count[pred] = count.get(pred, 0) + 1
                     # print(pred, present[pred], count[pred])
-                cv2.putText(frame, str(person_name) + str(prob), (x+6,
-                            y+h-6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                    # print(f"idhar hu ")
+                    # print(person_name)
+                cv2.putText(frame, str(person_name) + str(prob), (x+6,y+h-6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                # print('idhar kuch hua')
 
             else:
                 person_name = "kon ho bhai"
-                cv2.putText(frame, str(person_name), (x+6, y+h-6),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                cv2.putText(frame, str(person_name), (x+6, y+h-6),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                # print('idhar pata hua')
 
             # cv2.putText()
             # Before continuing to the next loop, I want to give it a little pause
@@ -366,8 +370,9 @@ def mark(request):
 
 def update_attendance_in_db_in(present, subject):
     today = datetime.date.today()
+    print(present)
     for person in present:
-        # print(person)
+        print(person)
         user = User.objects.get(username=person)
         # print(user)
         try:
@@ -417,7 +422,7 @@ def visualisation(request):
         stuserializer=Userserializer(student,many=True)
         attendserializer=Attendanceserializer(attendance,many=True)
         return Response({'msg': {'stu':stuserializer.data,'attend':attendserializer.data}})
-from datetime import datetime
+# from datetime import datetime
 from datetime import date
 from django.http import FileResponse
 def exceldata(request):
@@ -428,6 +433,7 @@ def exceldata(request):
     stuserializer=Userserializer(student,many=True)
     attendserializer=Attendanceserializer(attendance,many=True)
     # print(stuserializer.data)
+    print(attendserializer.data)
     usernamelist=[]
     for item in stuserializer.data:
        usernamelist.append([int(item['rollno']),item['username'],item['id']])
@@ -442,15 +448,16 @@ def exceldata(request):
         rollnolist.append(item[0])
         namelist.append(item[1])
     for item in attendserializer.data:
-        date_time_obj = datetime.strptime(item['todaysdate'], '%Y-%m-%d')
-        if date_time_obj>=datetime(2023,3,1):
+        date_time_obj = datetime.datetime.strptime(item['todaysdate'], '%Y-%m-%d')
+        if date_time_obj>=datetime.datetime(2023,3,1):
             datelist.append(date.isoformat(date_time_obj))
     limited=list(set(datelist))
     mainlist=[]
     for limit in limited:
         finallist=[]
         for item in attendserializer.data:
-            if item['todaysdate'] in limit:
+            print(f"uaha pe {item}")
+            if item['todaysdate'] in limit and item['present']:
                 finallist.append(item['username'])
         mainlist.append([limit,list(set(finallist))])
     # Add the list of data to the particular column

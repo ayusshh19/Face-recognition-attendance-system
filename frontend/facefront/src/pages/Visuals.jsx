@@ -199,6 +199,7 @@ const Excelbutton = styled.div`
   align-items: center;
   width: 100%;
   max-width: 400px;
+  cursor: pointer;
   /* background-color: white; */
   button {
     width: 100%;

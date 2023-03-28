@@ -18,7 +18,7 @@ export default function Textanimation() {
         setitem(textsplitarray);
       }
     },
-    play ? 8000 : null
+    play ? 4000 : null
   );
   useEffect(() => {
     const timer = setTimeout(() => {
